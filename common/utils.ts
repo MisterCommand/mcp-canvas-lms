@@ -2,7 +2,7 @@ import { getUserAgent } from "universal-user-agent";
 import { VERSION } from "./version";
 
 // Default base URL if environment variable is not set
-const BASE_URL = process.env.CANVAS_BASE_URL || "https://canvas.ust.hk";
+const BASE_URL = process.env.CANVAS_BASE_URL;
 
 export const divider =
   " ------------------ NEXT ITEM BELOW ---------------------- ";

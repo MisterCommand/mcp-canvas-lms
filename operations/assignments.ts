@@ -22,7 +22,9 @@ export const GetAssignmentsSchema = z.object({
     .optional(),
   due_in: z
     .number()
-    .describe("Number of days until due date, default to 14")
+    .describe(
+      "Number of days until due date, default to 14, can be negative (due before today)"
+    )
     .optional(),
 });
 
@@ -58,6 +60,9 @@ export async function getAssignments(
     dueDateIn.setDate(dueDateIn.getDate() + dueIn);
 
     // Due date in the future and before due_in
+    if (dueIn < 0) {
+      return dueDate <= now && dueDate >= dueDateIn;
+    }
     return dueDate >= now && dueDate <= dueDateIn;
   });
 
