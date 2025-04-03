@@ -13,8 +13,20 @@ MCP Server for the Canvas LMS API, enabling access to Canvas LMS resources for s
 
 ## Installation
 
-```bash
-npm install @modelcontextprotocol/server-canvas
+```json
+{
+  "mcpServers": {
+    "canvas-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-canvas"],
+      "env": {
+        "CANVAS_ACCESS_TOKEN": "key",
+        "CANVAS_BASE_URL": "https://..."
+      },
+      "transportType": "stdio"
+    }
+  }
+}
 ```
 
 ## Usage

@@ -1,1 +1,1 @@
-export const VERSION = process.env.CANVAS_VERSION || "1.0.1";
+export const VERSION = process.env.CANVAS_VERSION || "1.0.2";
