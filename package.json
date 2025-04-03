@@ -1,11 +1,11 @@
 {
-  "name": "mcp-canvas-llm",
+  "name": "mcp-canvas-lms",
   "version": "1.0.0",
-  "description": "Canvas LLM MCP server",
+  "description": "Canvas LMS MCP server",
   "license": "MIT",
   "author": "MisterCommand",
-  "homepage": "https://github.com/MisterCommand/mcp-canvas-llm",
-  "bugs": "https://github.com/MisterCommand/mcp-canvas-llm/issues",
+  "homepage": "https://github.com/MisterCommand/mcp-canvas-lms",
+  "bugs": "https://github.com/MisterCommand/mcp-canvas-lms/issues",
   "type": "module",
   "bin": {
     "mcp-server-canvas": "dist/index.js"
