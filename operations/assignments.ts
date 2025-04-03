@@ -23,7 +23,7 @@ export const GetAssignmentsSchema = z.object({
   due_in: z
     .number()
     .describe(
-      "Number of days until due date, default to 14, can be negative (due before today)"
+      "Number of days until due date, default to all assignments, can be negative (due before today)"
     )
     .optional(),
 });
@@ -48,26 +48,27 @@ export async function getAssignments(
   });
 
   // Filter the assignments base on due_in
-  const filteredAssignments = assignments.filter((assignment) => {
-    const dueDate = new Date(assignment.due_at ?? "");
-    const createdAt = new Date(assignment.created_at ?? "");
-    const updatedAt = new Date(assignment.updated_at ?? "");
-    const now = new Date();
-    const dueDateIn = new Date();
+  let filteredAssignments = assignments;
+  if (params.due_in !== undefined) {
+    filteredAssignments = assignments.filter((assignment) => {
+      const dueDate = new Date(assignment.due_at ?? "");
+      const now = new Date();
+      const dueDateIn = new Date();
 
-    // Filter by due_in
-    const dueIn = params.due_in ?? 14;
-    dueDateIn.setDate(dueDateIn.getDate() + dueIn);
+      // Filter by due_in
+      const dueIn = params.due_in ?? 14;
+      dueDateIn.setDate(dueDateIn.getDate() + dueIn);
 
-    // Due date in the future and before due_in
-    if (dueIn < 0) {
-      return dueDate <= now && dueDate >= dueDateIn;
-    }
-    return dueDate >= now && dueDate <= dueDateIn;
-  });
+      // Due date in the future and before due_in
+      if (dueIn < 0) {
+        return dueDate <= now && dueDate >= dueDateIn;
+      }
+      return dueDate >= now && dueDate <= dueDateIn;
+    });
+  }
 
   // Output: id\n name of assignment \n\n
-  const output = filteredAssignments
+  const output = assignments
     .map(
       (assignment) =>
         `id: ${assignment.id} \n created_at: ${

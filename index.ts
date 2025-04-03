@@ -18,7 +18,7 @@ import {
   GetAssignmentsSchema,
 } from "./operations/assignments.js";
 import { CanvasAPIError } from "./common/utils.js";
-import { VERSION } from "./common/version";
+import { VERSION } from "./common/version.js";
 
 const server = new Server(
   {

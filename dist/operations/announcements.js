@@ -17,7 +17,7 @@ export const GetAnnouncementsSchema = z.object({
         .describe("ID of the course, can be obtained from tool 'get_courses'"),
     number_of_days: z
         .number()
-        .describe("Number of days to look back, default to 90")
+        .describe("Number of days to look back, default to 90 days")
         .optional(),
 });
 /**
@@ -28,11 +28,13 @@ export const GetAnnouncementsSchema = z.object({
 export async function getAnnouncements(params) {
     const { course_id } = params;
     const now = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - (params.number_of_days ?? 90));
     // Use the pagination utility to get all announcements
     const announcements = await canvasRequestAllPages("/api/v1/announcements", {
         params: {
             context_codes: `course_${course_id}`,
-            start_date: new Date(new Date().setDate(now.getDate() - (params.number_of_days ?? 90))).toISOString(),
+            start_date: startDate.toISOString(),
             end_date: now.toISOString(),
             per_page: "50", // Request larger page size to reduce number of API calls
         },

@@ -1,5 +1,5 @@
 import { getUserAgent } from "universal-user-agent";
-import { VERSION } from "./version";
+import { VERSION } from "./version.js";
 
 // Default base URL if environment variable is not set
 const BASE_URL = process.env.CANVAS_BASE_URL;

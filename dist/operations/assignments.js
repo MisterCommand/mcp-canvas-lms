@@ -20,7 +20,7 @@ export const GetAssignmentsSchema = z.object({
         .optional(),
     due_in: z
         .number()
-        .describe("Number of days until due date, default to 14")
+        .describe("Number of days until due date, default to all assignments, can be negative (due before today)")
         .optional(),
 });
 /**
@@ -37,20 +37,24 @@ export async function getAssignments(params) {
         },
     });
     // Filter the assignments base on due_in
-    const filteredAssignments = assignments.filter((assignment) => {
-        const dueDate = new Date(assignment.due_at ?? "");
-        const createdAt = new Date(assignment.created_at ?? "");
-        const updatedAt = new Date(assignment.updated_at ?? "");
-        const now = new Date();
-        const dueDateIn = new Date();
-        // Filter by due_in
-        const dueIn = params.due_in ?? 14;
-        dueDateIn.setDate(dueDateIn.getDate() + dueIn);
-        // Due date in the future and before due_in
-        return dueDate >= now && dueDate <= dueDateIn;
-    });
+    let filteredAssignments = assignments;
+    if (params.due_in !== undefined) {
+        filteredAssignments = assignments.filter((assignment) => {
+            const dueDate = new Date(assignment.due_at ?? "");
+            const now = new Date();
+            const dueDateIn = new Date();
+            // Filter by due_in
+            const dueIn = params.due_in ?? 14;
+            dueDateIn.setDate(dueDateIn.getDate() + dueIn);
+            // Due date in the future and before due_in
+            if (dueIn < 0) {
+                return dueDate <= now && dueDate >= dueDateIn;
+            }
+            return dueDate >= now && dueDate <= dueDateIn;
+        });
+    }
     // Output: id\n name of assignment \n\n
-    const output = filteredAssignments
+    const output = assignments
         .map((assignment) => `id: ${assignment.id} \n created_at: ${assignment.created_at} \n updated_at: ${assignment.updated_at}  \n due_at: ${assignment.due_at} \n name: ${assignment.name} \n description: ${NodeHtmlMarkdown.translate(assignment.description ?? "")} \n 
         points_possible: ${assignment.points_possible} \n 
         url: ${assignment.html_url} \n 
