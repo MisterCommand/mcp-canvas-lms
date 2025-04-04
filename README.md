@@ -18,7 +18,7 @@ MCP Server for the Canvas LMS API, enabling access to Canvas LMS resources for s
   "mcpServers": {
     "canvas-mcp-server": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-canvas"],
+      "args": ["-y", "mcp-canvas-lms"],
       "env": {
         "CANVAS_ACCESS_TOKEN": "key",
         "CANVAS_BASE_URL": "https://..."
