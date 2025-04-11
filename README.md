@@ -36,6 +36,10 @@ MCP Server for the Canvas LMS API, enabling access to Canvas LMS resources for s
 - `CANVAS_ACCESS_TOKEN`: Canvas LMS API token
 - `CANVAS_BASE_URL`: Base URL for the canvas API (e.g. `https://canvas.ust.hk`)
 
+Create your access token at **sidebar** > **Profile** > **Settings** (`/profile/settings`) > **Approved Integrations** > **New Access Token**
+
+You might not be able to create a new access token if your admin has disabled this setting.
+
 ## Development
 
 ```bash
